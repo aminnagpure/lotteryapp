@@ -56,7 +56,7 @@ import web3 from '../js/web3';
  
   //return false;
 
-  const objad="0x3d0F0757BFFF859dbC8Af71b14873654d6807D34";
+  const objad="0x4834f3abda04b0fa5e807ba82abfaa83c576a42b";
 
     const ab=[
 	{
@@ -88,6 +88,7 @@ import web3 from '../js/web3';
 		"inputs": [
 			{
 				"indexed": false,
+				"internalType": "address",
 				"name": "bidder",
 				"type": "address"
 			}
@@ -101,6 +102,7 @@ import web3 from '../js/web3';
 		"name": "randmno",
 		"outputs": [
 			{
+				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
@@ -115,6 +117,7 @@ import web3 from '../js/web3';
 		"name": "viewbal",
 		"outputs": [
 			{
+				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
