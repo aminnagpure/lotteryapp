@@ -1,6 +1,8 @@
 export default function () {
   return {
     //
-    msginvested:'heygg'
+    msginvested:'heygg hsdfs',
+    allow:"sdfsd",
+    trxhash:'state.js'
   }
 }

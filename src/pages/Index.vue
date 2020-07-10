@@ -1,16 +1,25 @@
 <template>
   <q-page class="flex flex-center">
-  <h3> Ways to Quick Money, Join the Club{{statemsg}}</h3>
+  <h3> Ways to Quick Money, Join the Club
+    
+    {{trxhash}}
+  </h3>
   </q-page>
 </template>
 
 <script>
+
 export default {
   name: 'PageIndex',
   data () {
     return {
-      statemsg:this.$store.state.statemsg
-    }}
-  
+     
+      
+    }},
+ computed:{
+   trxhash(){
+     return this.$store.state.trxhash
+   }
+ }
 }
 </script>

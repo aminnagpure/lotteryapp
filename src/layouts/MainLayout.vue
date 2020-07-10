@@ -53,7 +53,6 @@
 import EssentialLink from 'components/EssentialLink.vue'
 import web3 from '../js/web3';
  
- 
   //return false;
 
   const objad="0x4834f3abda04b0fa5e807ba82abfaa83c576a42b";
@@ -130,6 +129,7 @@ import web3 from '../js/web3';
 
 const lottery= new web3.eth.Contract(ab,objad)
 
+ 
 export default {
   name: 'MainLayout',
 
@@ -187,7 +187,7 @@ export default {
     }
   }, methods:{
     login(){
-
+      this.$store.dispatch('addtxthash','hello world')
     },    
      enterlottery(){
        alert(window.web3.currentProvider.selectedAddress)
@@ -199,6 +199,8 @@ export default {
 
        }).then(kk=>{
          console.log(kk)
+
+         this.$store.dispatch("addtxthash",kk.transactionHash)
          alert(kk)
        })
       
