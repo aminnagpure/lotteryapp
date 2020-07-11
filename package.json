@@ -13,6 +13,7 @@
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
+    "vue-firestore": "^0.3.30",
     "web3": "^1.2.9"
   },
   "devDependencies": {
