@@ -29,12 +29,25 @@ export default function (/* { ssrContext } */) {
   actions:{
     addtxthash(context,msg){
       context.commit("settxthash",msg)
+    },
+    actcheckmetamask(context,msg){
+      context.commit("mutcheckmetamask",msg)
+    },
+    actionethad(context,msg){
+      context.commit("setethad",msg)
     }
   },mutations:{
     settxthash (state,msg) {
       state.trxhash=msg
    
+  },
+  mutcheckmetamask(state,msg){
+    state.metamaskInstalled=msg
+  },
+  setethad(state,msg){
+    state.ethAd=msg
   }
+
   }
   ,getters,
        modules: {      

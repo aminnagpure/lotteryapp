@@ -5,11 +5,11 @@
       
         
         <q-toolbar-title>
-        
+          {{metamaskmsg}}
         </q-toolbar-title>
 
         <div>
-      <q-btn v-on:click="login" label="About Us"/>
+      <q-btn  label="About Us"/>
       
         </div>
       </q-toolbar>
@@ -25,7 +25,7 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
-import web3 from '../js/web3';
+//import web3 from '../js/web3';
  
   //return false;
 
@@ -101,7 +101,7 @@ import web3 from '../js/web3';
 	}
 ];
 
-const lottery= new web3.eth.Contract(ab,objad)
+//const lottery= new web3.eth.Contract(ab,objad)
 
  
 export default {
@@ -114,6 +114,7 @@ export default {
   data () {
     return {
       leftDrawerOpen: false,
+      metamaskmsg:"",
       essentialLinks: [
         {
           title: 'Docs',
@@ -159,28 +160,12 @@ export default {
         }
       ]
     }
-  }, methods:{
-    login(){
-      this.$store.dispatch('addtxthash','hello world')
-    },    
-     enterlottery(){
-       alert(window.web3.currentProvider.selectedAddress)
-       let alc=window.web3.currentProvider.selectedAddress
-
-       lottery.methods.enterlottery().send({
-         from:alc,
-         value:web3.utils.toWei("0.5",'ether')
-
-       }).then(kk=>{
-         console.log(kk)
-
-         this.$store.dispatch("addtxthash",kk.transactionHash)
-         alert(kk)
-       })
-      
+  },created:function (){
+    //mm=this;
+    if(window.web3==null){      
+     this.metamaskmsg="Metamask required to play this lottery"
+     this.$store.dispatch("actcheckmetamask",false)
     }
-    
-    
   }
 }
 

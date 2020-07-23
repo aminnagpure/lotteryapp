@@ -5,7 +5,10 @@ function addtxthash (context ,msg) {
 function increment (context) {
     context.commit('increment')
   }
+ function checkmetamask(context,msg) {
+
+ }
 
 export default {
-    addtxthash,increment
+    addtxthash,increment,checkmetamask
 } 
