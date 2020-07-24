@@ -6,25 +6,32 @@ contract winlottery{
     
     event won(address bidder);
     
-    constructor() public payable{
+    constructor() public {
         _owner = msg.sender;
-    }      
+    }
+    
+     modifier onlyOwner () {
+        require(msg.sender == _owner);
+        _;
+    }
     
   function  enterlottery()public payable  {
-        users.push(msg.sender);
-
-       if(users.length>2){
-           winner();
-        }
+      require(msg.value > 0.01 ether);
+            users.push(msg.sender);          
+    
   }
     function viewbal() public view  returns(uint256){
         return address(this).balance;
     }
-    function numberofmembers()public view returns(uint256){
-       return  uint256  (users.length);        
+    function numberofmembers()public view  returns(uint256){
+       return  uint256  (users.length);
+        
     }
+    function declarewinner()external onlyOwner{
+        winner();
+    } 
     
-    function winner()public  {
+    function winner()internal  {
         uint index = randmno() % users.length;
         address sendadr = users[index];
        address(uint160(sendadr)).transfer(address(this).balance);
@@ -35,7 +42,7 @@ contract winlottery{
         
     }
     
-    function randmno()public view returns(uint256){
+    function randmno()internal view returns(uint256){
         return  uint(keccak256(abi.encodePacked(block.timestamp, msg.sender,block.number))) % 90;
     }
     

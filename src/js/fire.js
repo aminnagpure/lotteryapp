@@ -20,25 +20,6 @@ require('firebase/firestore')
  
   // Initialize Firebase.
 firebase.initializeApp(firebaseConfig);
-const db=firebase.firestore();
 
- function filllotterybox(){
-    const tumtum=this
-   db.collection("persons").get().then(function(querySnapshot) {
-   querySnapshot.forEach(function(doc) {
-       // doc.data() is never undefined for query doc snapshots
-       //this.lotterybox =doc.data()
-       return doc.data()
-       
-      // console.log(doc.id, " => ", doc.data());
-   });
-});
-};
 
-function addintoperson(alc){
-    db.collection("persons").add({name:alc}).then(kk=>{
-        console.log(kk)
-    })
-}
-
-export default{filllotterybox,addintoperson}
+export default firebase

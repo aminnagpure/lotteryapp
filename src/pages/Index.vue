@@ -1,10 +1,10 @@
 <template>
-  <q-page class="flex flex-center">
-    <div>
-  <h3> God Wants to Make You Rich, Only if you take Action {{lotterybal}}
-    {{ethaddress[0]}}
+  <q-page>
+    <div class="absolute-center">
+  <h3>
+	   God Wants to Make You Rich, Only if you take Action {{lotterybal}}    
   </h3>
-  <div align="center">
+  <div>
    <img :src="imgurl" width="50px"  /> <br>
    <div v-if="metamaskcheck">
    <q-btn label="Enter The Pump Lottery" v-on:click="enterlottery" />
@@ -14,17 +14,20 @@
    <a href="http://www.metamask.io">Click here to install metamask</a>
    </div>
     </div>
-    <div>Participants <q-btn label="Enter The Pump Lottery"  />
-      <div v-for="(dd, index) in lotterybox" :key="index" class="row">
+    <div> <q-btn label="Enter The Pump Lottery"  />
+      <div>
 
-          <div class="row">
-            
-          
-            <ul>
-              <li>{{dd.name}}</li>
-              </ul>
-             
-          </div>
+        <q-list>
+        <q-item-label header>Participants</q-item-label>
+        <q-item
+          v-for="(todo, index) in lotterybox"
+          :key="index"
+        >
+          <q-item-label>
+            {{ todo.name }}
+          </q-item-label>
+        </q-item>
+      </q-list>
 
       </div>
     
@@ -36,7 +39,29 @@
 
 <script>
 
- import fire from '../js/fire';
+ import firebase from '../js/fire';
+ //import firebase from 'firebase'
+
+
+
+    
+ 
+// require('firebase/firestore')
+
+
+//   const firebaseConfig = {
+//   apiKey: "AIzaSyAAm-5bCOVlzXeJFb_AxUPLEHZl66dkvxc",
+//   authDomain: "ether-51ed0.firebaseapp.com",
+//   databaseURL: "https://ether-51ed0.firebaseio.com",
+//   projectId: "ether-51ed0",
+//   storageBucket: "ether-51ed0.appspot.com",
+//   messagingSenderId: "258682462546",
+//   appId: "1:258682462546:web:6261f189323f581a9a5a8b"
+// };
+ 
+//   // Initialize Firebase.
+// firebase.initializeApp(firebaseConfig);
+
   //return false;
  import Web3 from 'web3'
 // import lottery from '../js/lottery';
@@ -150,8 +175,8 @@ export default {
       lotterybal:0
     }},
     mounted:function(){
-       // this.filllotterybox()
-       this.lotterybox.push(fire.filllotterybox)
+     
+     
     },
     
  computed:{
@@ -166,10 +191,18 @@ export default {
  },
  created:async function(){
 
-this.lotterybal= await lottery.methods.viewbal().call()
+this.lotterybal= await lottery.methods.viewbal().call()/1000000000000000000
 //this.ethaddress= await ethereum.request({ method: 'eth_requestAccounts' });
 
-
+let collection = firebase.firestore().collection('persons')
+collection.get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(todo => {
+            this.lotterybox.push(todo.data())
+          })
+          this.loading = false
+        })
+        .catch(error => console.error(error))
 
  },
  methods:{    
@@ -193,9 +226,13 @@ const account = accounts[0];
       })
 
       this.$store.dispatch("addtxthash",account)
-       fire.addintoperson(account)  
+	  
+	  
+	 firebase.firestore().collection("persons").add({name:account}).then(kk=>{
+        console.log(kk)
+    })
            
-      console.log(res.events)
+      //console.log(res.events)
 
     }
 }}
