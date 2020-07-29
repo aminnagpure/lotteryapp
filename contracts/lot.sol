@@ -5,6 +5,7 @@ contract winlottery{
     address[]  users;
     
     event won(address bidder);
+    event added(address add);
     
     constructor() public {
         _owner = msg.sender;
@@ -18,6 +19,7 @@ contract winlottery{
   function  enterlottery()public payable  {
       require(msg.value > 0.01 ether);
             users.push(msg.sender);          
+            emit added(msg.sender);
     
   }
     function viewbal() public view  returns(uint256){
@@ -27,6 +29,10 @@ contract winlottery{
        return  uint256  (users.length);
         
     }
+    function viewaddress(uint256 k)public view returns(address){
+            return users[k];
+    }
+    
     function declarewinner()external onlyOwner{
         winner();
     } 

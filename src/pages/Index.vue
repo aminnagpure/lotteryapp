@@ -2,7 +2,7 @@
   <q-page>
     <div class="absolute-center">
   <h3>
-	   God Wants to Make You Rich, Only if you take Action {{lotterybal}}    
+	   God Wants to Make You Rich, Only if you take Action {{amttowin}}    
   </h3>
   <div>
    <img :src="imgurl" width="50px"  /> <br>
@@ -19,13 +19,7 @@
 
         <q-list>
         <q-item-label header>Participants</q-item-label>
-        <q-item
-          v-for="(todo, index) in lotterybox"
-          :key="index"
-        >
-          <q-item-label>
-            {{ todo.name }}
-          </q-item-label>
+        <q-item>data here
         </q-item>
       </q-list>
 
@@ -75,32 +69,45 @@ if (typeof window.ethereum !== 'undefined') {
 }else{
    //metamaskmsg="memask not installed" 
   // alert("memask not installed" )
-  const provider = new Web3.providers.HttpProvider(
-    'https://rinkeby.infura.io/v3/f8ad46d404124919926cf5d925a939a6'
+  const provider = new Web3.providers.WebsocketProvider(
+    'wss://rinkeby.infura.io/v3/f8ad46d404124919926cf5d925a939a6'
   );
   web3 = new Web3(provider);
 }
 
-const objad = '0x3b348EcBe62c884b5114349968B1ce5f0Ef6F5b1';
+const objad = '0x00bb1c87b5c6614de3ac75ae337e20dc0ef8cc38';
 
 const ab=[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "add",
+				"type": "address"
+			}
+		],
+		"name": "added",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "declarewinner",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
 	{
 		"inputs": [],
 		"name": "enterlottery",
 		"outputs": [],
 		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "payable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [],
-		"name": "winner",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -130,13 +137,19 @@ const ab=[
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "randmno",
-		"outputs": [
+		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "k",
 				"type": "uint256"
+			}
+		],
+		"name": "viewaddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -172,7 +185,8 @@ export default {
      imgurl:"https://www.forsage.io/img/photos/cat_figure.svg",
      imgsrc:"assets/quasar-logo-full.svg",
       ethaddress:'',
-      lotterybal:0
+      amttowin:''
+      
     }},
     mounted:function(){
      
@@ -184,25 +198,25 @@ export default {
      return this.$store.state.trxhash
    },metamaskcheck(){
      return this.$store.state.metamaskInstalled
-   },
-   
+   }
 
    
  },
  created:async function(){
 
 this.lotterybal= await lottery.methods.viewbal().call()/1000000000000000000
+//this.lotterybal= await lottery.methods.viewbal().call()/1000000000000000000
 //this.ethaddress= await ethereum.request({ method: 'eth_requestAccounts' });
+let abc=this;
+ lottery.getPastEvents("added",{fromBlock:"latest",toBlock:"latest"}).then(kk=>{
+  console.log(kk)
+  lottery.methods.viewbal().call().then(kk=>{
+    abc.amttowin=kk/1000000000000000000
+  })
+})
 
-let collection = firebase.firestore().collection('persons')
-collection.get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(todo => {
-            this.lotterybox.push(todo.data())
-          })
-          this.loading = false
-        })
-        .catch(error => console.error(error))
+
+
 
  },
  methods:{    
@@ -227,10 +241,7 @@ const account = accounts[0];
 
       this.$store.dispatch("addtxthash",account)
 	  
-	  
-	 firebase.firestore().collection("persons").add({name:account}).then(kk=>{
-        console.log(kk)
-    })
+	 
            
       //console.log(res.events)
 
